@@ -62,6 +62,8 @@ typedef enum {
   RECEIVE_DATA,
   BOOT,
   COMPLETE,
+  CONFIRM_ERASE_NVM,
+  ERASE_NVM,
 } XmodemState_t;
 
 /** @endcond */
