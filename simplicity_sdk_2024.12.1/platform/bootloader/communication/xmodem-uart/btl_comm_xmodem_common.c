@@ -24,6 +24,8 @@
 #include "driver/btl_serial_driver.h"
 #include "driver/btl_driver_delay.h"
 
+#include "core/flash/btl_internal_flash.h"
+
 #if defined(BOOTLOADER_NONSECURE)
 // NS headers
   #include "core/btl_reset_ns.h"
@@ -118,7 +120,7 @@ static int32_t receivePacket(XmodemPacket_t *packet)
   return ret;
 }
 
-static XmodemState_t getAction(void)
+static XmodemState_t getAction(bool confirm_erase)
 {
   uint8_t c;
   XmodemState_t state;
@@ -138,6 +140,17 @@ static XmodemState_t getAction(void)
     case '3':
       state = MENU;
       break;
+    case '4': {
+      char str[] = "\r\nAre you sure? (y/n) > ";
+      uart_sendBuffer((uint8_t *)str, sizeof(str), true);
+      return CONFIRM_ERASE_NVM;
+      break;
+    }
+    case 'y':
+      if (confirm_erase) {
+        return ERASE_NVM;
+      }
+      // Fall through
     default:
       state = MENU;
       break;
@@ -165,6 +178,7 @@ int32_t bootloader_xmodem_communication_start(void)
                "1. upload gbl\r\n"
                "2. run\r\n"
                "3. ebl info\r\n"
+               "4. erase nvm\r\n"
                "BL > ";
 
   uint32_t version = bootload_getBootloaderVersion();
@@ -186,6 +200,7 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
   XmodemState_t state = IDLE;
   XmodemReceiveBuffer_t buf;
   uint8_t response = 0;
+  bool confirm_erase = false;
   int packetTimeout = 60;
 #if BTL_XMODEM_IDLE_TIMEOUT > 0
   int idleTimeout = BTL_XMODEM_IDLE_TIMEOUT;
@@ -209,7 +224,7 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
 
       case IDLE:
         // Get user input
-        state = getAction();
+        state = getAction(confirm_erase);
 
 #if BTL_XMODEM_IDLE_TIMEOUT > 0
         if (state == IDLE) {
@@ -446,6 +461,35 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
           // No upgrade image given, or upgrade failed
           reset_resetWithReason(BOOTLOADER_RESET_REASON_BADIMAGE);
         }
+        break;
+      
+      case CONFIRM_ERASE_NVM:
+        confirm_erase = true;
+        state = IDLE;
+        break;
+
+      case ERASE_NVM:
+        // Erase NVM
+        // The address and size can be determined from the .map files after firmware compilation.
+        // Right now, those are either:
+        // - Controller 0x08074000, size 0xa000
+        // - End device 0x08076000, size 0x8000
+        // ...which both end at address 0x0807dfff
+        uint32_t nvm_address = 0x08074000;
+        uint32_t nvm_size = 0x0000a000;
+
+        // Erase all pages that start inside the write range
+        for (uint32_t pageAddress = nvm_address & ~(FLASH_PAGE_SIZE - 1UL);
+            pageAddress < (nvm_address + nvm_size);
+            pageAddress += FLASH_PAGE_SIZE) {
+          flash_erasePage(pageAddress);
+        }
+
+        char str[] = "\r\nNVM erased\r\n";
+        uart_sendBuffer((uint8_t *)str, sizeof(str), true);
+
+        confirm_erase = false;
+        state = MENU;
         break;
     }
   }

@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"tsconfig*.json": "jsonc",
+		"tslint*.json": "jsonc",
+		"*.vbhtml": "razor",
+		"btl_internal_flash.h": "c"
+	}
+}
