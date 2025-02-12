@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="uc.module.setup.componentSetup.com.silabs.ss.framework.project.toolchain.core.default#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:12.2.1.20221205.gcc" propertyScope="project">
-  <folder name="simplicity_sdk_2024.6.2">
+  <folder name="simplicity_sdk_2024.12.1">
     <folder name="platform">
       <folder name="Device">
         <folder name="SiliconLabs">
@@ -32,8 +32,6 @@
               <file name="efr32zg23_iadc.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_iadc.h"/>
               <file name="efr32zg23_icache.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_icache.h"/>
               <file name="efr32zg23_keyscan.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_keyscan.h"/>
-              <file name="efr32zg23_lcd.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_lcd.h"/>
-              <file name="efr32zg23_lcdrf.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_lcdrf.h"/>
               <file name="efr32zg23_ldma.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_ldma.h"/>
               <file name="efr32zg23_ldmaxbar.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_ldmaxbar.h"/>
               <file name="efr32zg23_ldmaxbar_defines.h" linked="false" uri="studio:/sdk/platform/Device/SiliconLabs/EFR32ZG23/Include/efr32zg23_ldmaxbar_defines.h"/>
@@ -72,6 +70,7 @@
           <file name="sl_enum.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_enum.h"/>
           <file name="sl_assert.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_assert.h"/>
           <file name="sl_common.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_common.h"/>
+          <file name="sl_compiler.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_compiler.h"/>
           <file name="sl_core.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_core.h"/>
           <file name="sl_status.h" linked="false" uri="studio:/sdk/platform/common/inc/sl_status.h"/>
         </folder>
@@ -227,7 +226,6 @@
           <file name="em_pcnt.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_pcnt.c"/>
           <file name="em_prs.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_prs.c"/>
           <file name="em_rmu.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_rmu.c"/>
-          <file name="em_se.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_se.c"/>
           <file name="em_system.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_system.c"/>
           <file name="em_timer.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_timer.c"/>
           <file name="em_usart.c" linked="false" uri="studio:/sdk/platform/emlib/src/em_usart.c"/>
@@ -265,7 +263,6 @@
           <file name="em_pcnt.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_pcnt.h"/>
           <file name="em_prs.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_prs.h"/>
           <file name="em_rmu.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_rmu.h"/>
-          <file name="em_se.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_se.h"/>
           <file name="em_smu.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_smu.h"/>
           <file name="em_syscfg.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_syscfg.h"/>
           <file name="em_system.h" linked="false" uri="studio:/sdk/platform/emlib/inc/em_system.h"/>
@@ -303,20 +300,6 @@
             </folder>
           </folder>
           <folder name="sl_psa_driver">
-            <folder name="inc">
-              <file name="sli_psa_driver_features.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_psa_driver_features.h"/>
-              <file name="sli_psa_driver_common.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_psa_driver_common.h"/>
-              <file name="sli_se_version_dependencies.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_version_dependencies.h"/>
-              <file name="sli_se_driver_aead.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_aead.h"/>
-              <file name="sli_se_driver_cipher.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_cipher.h"/>
-              <file name="sli_se_driver_key_derivation.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_key_derivation.h"/>
-              <file name="sli_se_driver_key_management.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_key_management.h"/>
-              <file name="sli_se_driver_mac.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_mac.h"/>
-              <file name="sli_se_opaque_functions.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_opaque_functions.h"/>
-              <file name="sli_se_opaque_types.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_opaque_types.h"/>
-              <file name="sli_se_transparent_functions.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_transparent_functions.h"/>
-              <file name="sli_se_transparent_types.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_transparent_types.h"/>
-            </folder>
             <folder name="src">
               <file name="sli_psa_driver_init.c" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/src/sli_psa_driver_init.c"/>
               <file name="sli_psa_driver_common.c" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/src/sli_psa_driver_common.c"/>
@@ -338,6 +321,20 @@
               <file name="sli_se_opaque_driver_cipher.c" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/src/sli_se_opaque_driver_cipher.c"/>
               <file name="sli_se_opaque_driver_aead.c" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/src/sli_se_opaque_driver_aead.c"/>
             </folder>
+            <folder name="inc">
+              <file name="sli_psa_driver_common.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_psa_driver_common.h"/>
+              <file name="sli_se_version_dependencies.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_version_dependencies.h"/>
+              <file name="sli_psa_driver_features.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_psa_driver_features.h"/>
+              <file name="sli_se_driver_aead.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_aead.h"/>
+              <file name="sli_se_driver_cipher.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_cipher.h"/>
+              <file name="sli_se_driver_key_derivation.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_key_derivation.h"/>
+              <file name="sli_se_driver_key_management.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_key_management.h"/>
+              <file name="sli_se_driver_mac.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_driver_mac.h"/>
+              <file name="sli_se_opaque_functions.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_opaque_functions.h"/>
+              <file name="sli_se_opaque_types.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_opaque_types.h"/>
+              <file name="sli_se_transparent_functions.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_transparent_functions.h"/>
+              <file name="sli_se_transparent_types.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sl_psa_driver/inc/sli_se_transparent_types.h"/>
+            </folder>
           </folder>
           <folder name="se_manager">
             <folder name="src">
@@ -351,8 +348,6 @@
               <file name="sl_se_manager_signature.c" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/src/sl_se_manager_signature.c"/>
               <file name="sl_se_manager_attestation.c" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/src/sl_se_manager_attestation.c"/>
               <file name="sli_se_manager_mailbox.c" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/src/sli_se_manager_mailbox.c"/>
-              <file name="sli_se_manager_osal.h" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/src/sli_se_manager_osal.h"/>
-              <file name="sli_se_manager_osal_baremetal.h" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/src/sli_se_manager_osal_baremetal.h"/>
             </folder>
             <folder name="inc">
               <file name="sl_se_manager.h" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/inc/sl_se_manager.h"/>
@@ -374,6 +369,12 @@
               <file name="sli_se_manager_mailbox.h" linked="false" uri="studio:/sdk/platform/security/sl_component/se_manager/inc/sli_se_manager_mailbox.h"/>
             </folder>
           </folder>
+          <folder name="sli_psec_osal">
+            <folder name="inc">
+              <file name="sli_psec_osal.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sli_psec_osal/inc/sli_psec_osal.h"/>
+              <file name="sli_psec_osal_baremetal.h" linked="false" uri="studio:/sdk/platform/security/sl_component/sli_psec_osal/inc/sli_psec_osal_baremetal.h"/>
+            </folder>
+          </folder>
         </folder>
       </folder>
       <folder name="service">
@@ -384,6 +385,7 @@
             <file name="sli_memory_manager_common.c" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sli_memory_manager_common.c"/>
             <file name="sl_memory_manager_retarget.c" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sl_memory_manager_retarget.c"/>
             <file name="sli_memory_manager.h" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sli_memory_manager.h"/>
+            <file name="sl_memory_manager_pool_common.c" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sl_memory_manager_pool_common.c"/>
             <file name="sl_memory_manager_pool.c" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sl_memory_manager_pool.c"/>
             <file name="sl_memory_manager_region.c" linked="false" uri="studio:/sdk/platform/service/memory_manager/src/sl_memory_manager_region.c"/>
           </folder>
@@ -417,13 +419,18 @@
             <file name="bn_mul.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bn_mul.h"/>
             <file name="base64_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/base64_internal.h"/>
             <file name="bignum_core.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bignum_core.h"/>
+            <file name="bignum_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bignum_internal.h"/>
             <file name="bignum_mod.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bignum_mod.h"/>
             <file name="bignum_mod_raw.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bignum_mod_raw.h"/>
             <file name="bignum_mod_raw_invasive.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/bignum_mod_raw_invasive.h"/>
+            <file name="block_cipher_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/block_cipher_internal.h"/>
+            <file name="check_crypto_config.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/check_crypto_config.h"/>
             <file name="cipher_wrap.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/cipher_wrap.h"/>
             <file name="common.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/common.h"/>
             <file name="constant_time_impl.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/constant_time_impl.h"/>
             <file name="constant_time_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/constant_time_internal.h"/>
+            <file name="ctr.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ctr.h"/>
+            <file name="debug_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/debug_internal.h"/>
             <file name="ecp_internal_alt.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ecp_internal_alt.h"/>
             <file name="ecp_invasive.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ecp_invasive.h"/>
             <file name="entropy_poll.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/entropy_poll.h"/>
@@ -440,11 +447,14 @@
             <file name="pkwrite.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/pkwrite.h"/>
             <file name="psa_util_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/psa_util_internal.h"/>
             <file name="rsa_alt_helpers.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/rsa_alt_helpers.h"/>
+            <file name="rsa_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/rsa_internal.h"/>
             <file name="ssl_debug_helpers.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_debug_helpers.h"/>
             <file name="ssl_client.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_client.h"/>
+            <file name="ssl_ciphersuites_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_ciphersuites_internal.h"/>
             <file name="ssl_misc.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_misc.h"/>
             <file name="ssl_tls13_invasive.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_tls13_invasive.h"/>
             <file name="ssl_tls13_keys.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/ssl_tls13_keys.h"/>
+            <file name="x509_internal.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/x509_internal.h"/>
             <file name="psa_crypto_client.c" linked="false" uri="studio:/sdk/util/third_party/mbedtls/library/psa_crypto_client.c"/>
           </folder>
           <folder name="include">
@@ -455,6 +465,7 @@
               <file name="asn1write.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/asn1write.h"/>
               <file name="base64.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/base64.h"/>
               <file name="bignum.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/bignum.h"/>
+              <file name="block_cipher.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/block_cipher.h"/>
               <file name="build_info.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/build_info.h"/>
               <file name="camellia.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/camellia.h"/>
               <file name="ccm.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/mbedtls/ccm.h"/>
@@ -526,6 +537,7 @@
             <folder name="psa">
               <file name="crypto.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/crypto.h"/>
               <file name="crypto_adjust_auto_enabled.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/crypto_adjust_auto_enabled.h"/>
+              <file name="crypto_adjust_config_dependencies.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/crypto_adjust_config_dependencies.h"/>
               <file name="crypto_adjust_config_key_pair_types.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/crypto_adjust_config_key_pair_types.h"/>
               <file name="crypto_adjust_config_synonyms.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/crypto_adjust_config_synonyms.h"/>
               <file name="build_info.h" linked="false" uri="studio:/sdk/util/third_party/mbedtls/include/psa/build_info.h"/>
@@ -579,34 +591,35 @@
       </folder>
     </folder>
   </folder>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/Device/SiliconLabs/EFR32ZG23/Include"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/common/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/parser/compression"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/debug"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/parser"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/api"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/security"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/driver"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/communication"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/bootloader/communication/xmodem-parser"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/CMSIS/Core/Include"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/emlib/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/sl_mbedtls_support/config"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/sl_mbedtls_support/config/preset"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/sl_mbedtls_support/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/util/third_party/mbedtls/include"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/util/third_party/mbedtls/library"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/service/memory_manager/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/service/memory_manager/src"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/sl_psa_driver/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/se_manager/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/security/sl_component/se_manager/src"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/util/third_party/trusted-firmware-m/lib/fih/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/util/third_party/trusted-firmware-m/platform/include"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/common/toolchain/inc"/>
-  <includePath uri="studio:/project/simplicity_sdk_2024.6.2/platform/service/udelay/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/Device/SiliconLabs/EFR32ZG23/Include"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/common/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/parser/compression"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/debug"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/parser"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/api"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/security"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/driver"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/communication"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/bootloader/communication/xmodem-parser"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/CMSIS/Core/Include"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/emlib/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/sl_mbedtls_support/config"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/sl_mbedtls_support/config/preset"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/sl_mbedtls_support/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/util/third_party/mbedtls/include"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/util/third_party/mbedtls/library"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/service/memory_manager/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/service/memory_manager/src"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/sl_psa_driver/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/se_manager/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/util/third_party/trusted-firmware-m/lib/fih/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/util/third_party/trusted-firmware-m/platform/include"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/common/toolchain/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/security/sl_component/sli_psec_osal/inc"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.1/platform/service/udelay/inc"/>
   <macroDefinition name="EFR32ZG23A020F512GM40"/>
+  <macroDefinition name="SL_CODE_COMPONENT_SYSTEM" value="system"/>
   <macroDefinition name="SE_MANAGER_CONFIG_FILE" value="&quot;btl_aes_ctr_stream_block_cfg.h&quot;"/>
   <macroDefinition name="PARSER_HAS_APPLICATION_UPGRADE_VALIDATION_CALLBACK" value="1"/>
   <macroDefinition name="BTL_PARSER_SUPPORT_CUSTOM_TAGS" value="1"/>
@@ -621,10 +634,11 @@
   <macroDefinition name="BOOTLOADER_SUPPORT_COMMUNICATION" value="1"/>
   <macroDefinition name="SL_COMPONENT_CATALOG_PRESENT"/>
   <macroDefinition name="MBEDTLS_CONFIG_FILE" value="&lt;sl_mbedtls_config.h>"/>
-  <macroDefinition name="SL_MEMORY_POOL_LIGHT"/>
   <macroDefinition name="MBEDTLS_PSA_CRYPTO_CLIENT"/>
   <macroDefinition name="MBEDTLS_PSA_CRYPTO_CONFIG_FILE" value="&lt;psa_crypto_config.h>"/>
+  <macroDefinition name="SL_CODE_COMPONENT_SE_MANAGER" value="se_manager"/>
   <macroDefinition name="SL_CODE_COMPONENT_CORE" value="core"/>
+  <macroDefinition name="SL_CODE_COMPONENT_PSEC_OSAL" value="psec_osal"/>
   <macroDefinition name="SL_TRUSTZONE_SECURE"/>
   <libraryFile name="gcc"/>
   <libraryFile name="c"/>
@@ -633,6 +647,7 @@
   <toolOption toolId="toolOption.uc.toolchain" optionId="toolOption.uc.toolchain.cpu" value="cortex-m33"/>
   <toolOption toolId="toolOption.uc.toolchain" optionId="toolOption.uc.toolchain.fpu" value="fpv5-sp"/>
   <toolOption toolId="toolOption.uc.toolchain" optionId="toolOption.uc.toolchain.float_abi" value="hard"/>
+  <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.secure_code" value="true"/>
   <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.optimization" value="size"/>
   <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.preinclude">
     <toolListOption value="sl_gcc_preinclude.h"/>
@@ -654,6 +669,7 @@
   <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.warnings.extra" value="true"/>
   <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.warnings.pedantic" value="false"/>
   <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.warnings.are_errors" value="false"/>
+  <toolOption toolId="toolOption.uc.compiler" optionId="toolOption.uc.compiler.debug_level" value="default"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.floatingpoint.type" value="floatingpoint.type.hard"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.floatingpoint.enable" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.floatingpoint.type" value="floatingpoint.type.hard"/>
@@ -664,6 +680,7 @@
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.floatingpoint.type" value="floatingpoint.type.hard"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.floatingpoint.enable" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.floatingpoint.enable" value="true"/>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.exe" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.debug.level" value="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.debug.level.default"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.preinclude">
     <toolListOption value="sl_gcc_preinclude.h"/>
   </toolOption>
@@ -677,6 +694,8 @@
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.misc.dialect" value="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.misc.dialect.cpp17"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.no_rtti" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.no_exceptions" value="true"/>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.generateSecureCode" value="true"/>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.generateSecureCode" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.optimization.level" value="gnu.c.optimization.level.size"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.optimization.level" value="gnu.cpp.compiler.optimization.level.size"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.optimization.datasect" value="true"/>
@@ -693,64 +712,65 @@
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="gnu.cpp.compiler.option.warnings.toerrors" value="false"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="gnu.c.compiler.option.warnings.pedantic" value="false"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="gnu.cpp.compiler.option.warnings.pedantic" value="false"/>
-  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.exe" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.script" value="${workspace_loc:/${ProjName}/autogen/linkerfile.ld}"/>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.exe" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.script" value="&quot;${workspace_loc:/${ProjName}/autogen/linkerfile.ld}&quot;"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.exe" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.usescript" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.clibs" value="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.nanospec"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.clibs" value="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.nanospec"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.map" value="true"/>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.base" optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.map" value="true"/>
   <toolOption toolId="studio.ide.project" optionId="device_opn" value="efr32zg23a020f512gm40"/>
-  <toolOption toolId="makefile.arm.gcc.compiler" optionId="misc">
-    <toolListOption value="-mcmse"/>
-    <toolListOption value="-Wno-ignored-qualifiers"/>
-    <toolListOption value="-Wno-sign-compare"/>
-    <toolListOption value="--specs=nano.specs"/>
-    <toolListOption value="-g"/>
-  </toolOption>
-  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.gnu.c.compiler.option.misc.otherlist">
-    <toolListOption value="-mcmse"/>
-    <toolListOption value="-Wno-ignored-qualifiers"/>
-    <toolListOption value="-Wno-sign-compare"/>
-    <toolListOption value="--specs=nano.specs"/>
-    <toolListOption value="-c"/>
-    <toolListOption value="-fmessage-length=0"/>
-  </toolOption>
-  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.gnu.cpp.compiler.option.misc.otherlist">
-    <toolListOption value="-mcmse"/>
-    <toolListOption value="-Wno-ignored-qualifiers"/>
-    <toolListOption value="-Wno-sign-compare"/>
-    <toolListOption value="--specs=nano.specs"/>
-    <toolListOption value="-c"/>
-    <toolListOption value="-fmessage-length=0"/>
-  </toolOption>
-  <toolOption toolId="iar.ewp.arm.compiler" optionId="IExtraOptions">
-    <toolListOption value="--cmse"/>
-    <toolListOption value="--diag_suppress Pa082"/>
-  </toolOption>
-  <toolOption toolId="iar.arm.toolchain.compiler.v5.4.1" optionId="iar.arm.toolchain.compiler.option.additionalUserOptions">
-    <toolListOption value="--cmse"/>
-    <toolListOption value="--diag_suppress Pa082"/>
-  </toolOption>
   <toolOption toolId="makefile.arm.gcc.linker" optionId="misc">
     <toolListOption value="-Wl,--wrap=_free_r -Wl,--wrap=_malloc_r -Wl,--wrap=_calloc_r -Wl,--wrap=_realloc_r"/>
-    <toolListOption value="-Wl,--gc-sections"/>
     <toolListOption value="-Wl,--no-warn-rwx-segments"/>
+    <toolListOption value="-fno-lto"/>
+    <toolListOption value="-Wl,--gc-sections"/>
   </toolOption>
   <toolOption toolId="makefile.host.gcc.linker" optionId="misc">
     <toolListOption value="-Wl,--wrap=_free_r -Wl,--wrap=_malloc_r -Wl,--wrap=_calloc_r -Wl,--wrap=_realloc_r"/>
+    <toolListOption value="-Wl,--no-warn-rwx-segments"/>
   </toolOption>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base" optionId="com.silabs.gnu.c.link.option.ldflags">
     <toolListOption value="-Wl,--wrap=_free_r -Wl,--wrap=_malloc_r -Wl,--wrap=_calloc_r -Wl,--wrap=_realloc_r"/>
     <toolListOption value="-Wl,--no-warn-rwx-segments"/>
+    <toolListOption value="-fno-lto"/>
   </toolOption>
   <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.linker.base" optionId="com.silabs.gnu.cpp.link.option.flags">
     <toolListOption value="-Wl,--wrap=_free_r -Wl,--wrap=_malloc_r -Wl,--wrap=_calloc_r -Wl,--wrap=_realloc_r"/>
     <toolListOption value="-Wl,--no-warn-rwx-segments"/>
+    <toolListOption value="-fno-lto"/>
+  </toolOption>
+  <toolOption toolId="makefile.arm.gcc.compiler" optionId="misc">
+    <toolListOption value="-Wno-ignored-qualifiers"/>
+    <toolListOption value="-Wno-sign-compare"/>
+    <toolListOption value="-fno-lto"/>
+    <toolListOption value="--specs=nano.specs"/>
   </toolOption>
   <toolOption toolId="makefile.host.gcc.compiler" optionId="misc">
     <toolListOption value="-Wno-ignored-qualifiers"/>
     <toolListOption value="-Wno-sign-compare"/>
     <toolListOption value="--specs=nano.specs"/>
+  </toolOption>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base" optionId="com.silabs.gnu.c.compiler.option.misc.otherlist">
+    <toolListOption value="-Wno-ignored-qualifiers"/>
+    <toolListOption value="-Wno-sign-compare"/>
+    <toolListOption value="-fno-lto"/>
+    <toolListOption value="--specs=nano.specs"/>
+    <toolListOption value="-c"/>
+    <toolListOption value="-fmessage-length=0"/>
+  </toolOption>
+  <toolOption toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.cpp.compiler.base" optionId="com.silabs.gnu.cpp.compiler.option.misc.otherlist">
+    <toolListOption value="-Wno-ignored-qualifiers"/>
+    <toolListOption value="-Wno-sign-compare"/>
+    <toolListOption value="-fno-lto"/>
+    <toolListOption value="--specs=nano.specs"/>
+    <toolListOption value="-c"/>
+    <toolListOption value="-fmessage-length=0"/>
+  </toolOption>
+  <toolOption toolId="iar.ewp.arm.compiler" optionId="IExtraOptions">
+    <toolListOption value="--diag_suppress Pa082"/>
+  </toolOption>
+  <toolOption toolId="iar.arm.toolchain.compiler.v5.4.1" optionId="iar.arm.toolchain.compiler.option.additionalUserOptions">
+    <toolListOption value="--diag_suppress Pa082"/>
   </toolOption>
   <toolOption toolId="makefile.arm.gcc.assembler" optionId="misc">
     <toolListOption value="-x assembler-with-cpp"/>

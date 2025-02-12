@@ -3,18 +3,18 @@
   <folder name="config">
     <file name="sl_memory_config.h" generated="true" linked="false"/>
     <file name="btl_core_cfg.h" generated="true" linked="false"/>
-    <file name="btl_xmodem_config.h" generated="true" linked="false"/>
     <file name="btl_debug_cfg.h" generated="true" linked="false"/>
+    <file name="btl_xmodem_config.h" generated="true" linked="false"/>
+    <file name="btl_aes_ctr_stream_block_cfg.h" generated="true" linked="false"/>
+    <file name="btl_uart_driver_cfg.h" generated="true" linked="false"/>
     <file name="sl_fault_injection_hardening_cfg.h" generated="true" linked="false"/>
+    <file name="psa_crypto_config.h" generated="true" linked="false"/>
+    <file name="sl_memory_manager_region_config.h" generated="true" linked="false"/>
+    <file name="sl_memory_manager_config.h" generated="true" linked="false"/>
     <file name="sl_core_config.h" generated="true" linked="false"/>
     <file name="emlib_core_debug_config.h" generated="true" linked="false"/>
     <file name="sl_mbedtls_config.h" generated="true" linked="false"/>
     <file name="sl_mbedtls_device_config.h" generated="true" linked="false"/>
-    <file name="btl_aes_ctr_stream_block_cfg.h" generated="true" linked="false"/>
-    <file name="btl_uart_driver_cfg.h" generated="true" linked="false"/>
-    <file name="psa_crypto_config.h" generated="true" linked="false"/>
-    <file name="sl_memory_manager_region_config.h" generated="true" linked="false"/>
-    <file name="sl_memory_manager_config.h" generated="true" linked="false"/>
   </folder>
   <includePath uri="studio:/project/config"/>
 </project>

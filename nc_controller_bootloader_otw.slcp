@@ -15,7 +15,7 @@ filter:
   value: [Z-Wave]
 package: Z-Wave
 quality: production
-sdk: {id: simplicity_sdk, version: 2024.6.2}
+sdk: {id: simplicity_sdk, version: 2024.12.1}
 toolchain_settings: []
 component:
 - {id: EFR32ZG23A020F512GM40}
@@ -41,5 +41,6 @@ configuration:
 - {name: BOOTLOADER_FALLBACK_LEGACY_KEY, value: '1'}
 - {name: BTL_STORAGE_BASE_ADDRESS, value: '134496256'}
 ui_hints: {}
-post_build: {path: nc_controller_bootloader_otw.slpb, profile: bootloader}
+post_build:
+- {path: nc_controller_bootloader_otw.slpb, profile: bootloader}
 
