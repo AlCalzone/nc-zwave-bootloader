@@ -114,9 +114,6 @@
           <file name="btl_crc16.h" linked="false" uri="studio:/sdk/platform/bootloader/security/btl_crc16.h"/>
           <file name="btl_security_tokens.c" linked="false" uri="studio:/sdk/platform/bootloader/security/btl_security_tokens.c"/>
         </folder>
-        <folder name="app_version">
-          <file name="btl_parser_app_version_check.c" linked="false" uri="studio:/sdk/platform/bootloader/app_version/btl_parser_app_version_check.c"/>
-        </folder>
         <folder name="parser">
           <folder name="compression">
             <folder name="lzma">
@@ -621,7 +618,6 @@
   <macroDefinition name="EFR32ZG23A020F512GM40"/>
   <macroDefinition name="SL_CODE_COMPONENT_SYSTEM" value="system"/>
   <macroDefinition name="SE_MANAGER_CONFIG_FILE" value="&quot;btl_aes_ctr_stream_block_cfg.h&quot;"/>
-  <macroDefinition name="PARSER_HAS_APPLICATION_UPGRADE_VALIDATION_CALLBACK" value="1"/>
   <macroDefinition name="BTL_PARSER_SUPPORT_CUSTOM_TAGS" value="1"/>
   <macroDefinition name="BTL_PARSER_SUPPORT_LZMA" value="1"/>
   <macroDefinition name="_LZMA_SIZE_OPT"/>

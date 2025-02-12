@@ -52,25 +52,29 @@
 // <<< sl:start pin_tool >>>
 // <usart signal=TX,RX,(CTS),(RTS)> SL_SERIAL_UART
 // $[USART_SL_SERIAL_UART]
-#warning "Bootloader UART peripheral not configured"
-//#define SL_SERIAL_UART_PERIPHERAL                USART1
-//#define SL_SERIAL_UART_PERIPHERAL_NO             1
+#ifndef SL_SERIAL_UART_PERIPHERAL               
+#define SL_SERIAL_UART_PERIPHERAL                USART0
+#endif
+#ifndef SL_SERIAL_UART_PERIPHERAL_NO            
+#define SL_SERIAL_UART_PERIPHERAL_NO             0
+#endif
 
 // USART0 TX on PA08
-//#define SL_SERIAL_UART_TX_PORT                   gpioPortA
-//#define SL_SERIAL_UART_TX_PIN                    5
+#ifndef SL_SERIAL_UART_TX_PORT                  
+#define SL_SERIAL_UART_TX_PORT                   SL_GPIO_PORT_A
+#endif
+#ifndef SL_SERIAL_UART_TX_PIN                   
+#define SL_SERIAL_UART_TX_PIN                    8
+#endif
 
-// USART0 RX on PA01
-//#define SL_SERIAL_UART_RX_PORT                   gpioPortA
-//#define SL_SERIAL_UART_RX_PIN                    6
+// USART0 RX on PA07
+#ifndef SL_SERIAL_UART_RX_PORT                  
+#define SL_SERIAL_UART_RX_PORT                   SL_GPIO_PORT_A
+#endif
+#ifndef SL_SERIAL_UART_RX_PIN                   
+#define SL_SERIAL_UART_RX_PIN                    7
+#endif
 
-// USART0 CTS on PA02
-//#define SL_SERIAL_UART_CTS_PORT                  gpioPortA
-//#define SL_SERIAL_UART_CTS_PIN                   8
-
-// USART0 RTS on PA03
-//#define SL_SERIAL_UART_RTS_PORT                  gpioPortA
-//#define SL_SERIAL_UART_RTS_PIN                   7
 // [USART_SL_SERIAL_UART]$
 
 // <gpio optional=true> SL_VCOM_ENABLE

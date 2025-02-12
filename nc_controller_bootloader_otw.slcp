@@ -20,7 +20,6 @@ toolchain_settings: []
 component:
 - {id: EFR32ZG23A020F512GM40}
 - {id: bootloader_aes_sha_ecdsa}
-- {id: bootloader_app_upgrade_version}
 - {id: bootloader_core}
 - {id: bootloader_crc}
 - {id: bootloader_debug}
