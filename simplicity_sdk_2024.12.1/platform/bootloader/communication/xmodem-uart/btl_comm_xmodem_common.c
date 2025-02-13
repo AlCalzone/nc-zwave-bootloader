@@ -477,12 +477,62 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
         // ...which both end at address 0x0807dfff
         uint32_t nvm_address = 0x08074000;
         uint32_t nvm_size = 0x0000a000;
+        uint32_t zpal_page_size = 0x00002000;
+
+        // In the page at address 0x0807e000, ZPAL stores tokens like the encryption key,
+        // but also the QR code, DSK, etc. The controller firmware does not generate the DSK,
+        // and the end device firmware only does it when the byte at address 0x807e45c is 0xff.
+
+        // For some reason, we can only erase that page, but not unlock it for resetting that byte.
+        // Hence we read the tokens first, erase NVM and the ZPAL page, then restore the tokens
+
+        // It would be much easier to just have the controller firmware also generate a DSK,
+        // but Silabs hides this functionality in the end device binaries...
+
+        uint32_t btl_enc_key_address = 0x0807e284; // Actually at 0x0807e286, but that's not 4-byte aligned
+        uint8_t btl_enc_key_data[20]; // Actually 16 bytes, but we need to read 20 bytes to keep the alignment
+        memcpy(btl_enc_key_data, (uint8_t *)btl_enc_key_address, sizeof(btl_enc_key_data));
+
+        uint32_t btl_sign_key_address = 0x0807e34c;
+        uint8_t btl_sign_key_data[64];
+        memcpy(btl_sign_key_data, (uint8_t *)btl_sign_key_address, sizeof(btl_sign_key_data));
+
+        uint32_t zpal_prk_address = 0x0807e3c0;
+        uint8_t zpal_prk_data[32];
+        memcpy(zpal_prk_data, (uint8_t *)zpal_prk_address, sizeof(zpal_prk_data));
+
+        uint32_t zpal_puk_address = 0x0807e3e0;
+        uint8_t zpal_puk_data[32];
+        memcpy(zpal_puk_data, (uint8_t *)zpal_puk_address, sizeof(zpal_puk_data));
+
+        uint32_t zpal_qr_address_1 = 0x0807e400;
+        uint32_t zpal_qr_address_2 = 0x0807e460;
+        uint8_t zpal_qr_data_1[92]; // actually 90, but that's not a multiple of 4
+        uint8_t zpal_qr_data_2[16];
+        memcpy(zpal_qr_data_1, (uint8_t *)zpal_qr_address_1, sizeof(zpal_qr_data_1));
+        memcpy(zpal_qr_data_2, (uint8_t *)zpal_qr_address_2, sizeof(zpal_qr_data_2));
 
         // Erase all pages that start inside the write range
         for (uint32_t pageAddress = nvm_address & ~(FLASH_PAGE_SIZE - 1UL);
-            pageAddress < (nvm_address + nvm_size);
+            pageAddress < (nvm_address + nvm_size + zpal_page_size);
             pageAddress += FLASH_PAGE_SIZE) {
           flash_erasePage(pageAddress);
+        }
+
+        // Write the tokens back to where they belong
+        flash_writeBuffer(btl_enc_key_address, btl_enc_key_data, sizeof(btl_enc_key_data));
+        flash_writeBuffer(btl_sign_key_address, btl_sign_key_data, sizeof(btl_sign_key_data));
+        flash_writeBuffer(zpal_prk_address, zpal_prk_data, sizeof(zpal_prk_data));
+        flash_writeBuffer(zpal_puk_address, zpal_puk_data, sizeof(zpal_puk_data));
+        flash_writeBuffer(zpal_qr_address_1, zpal_qr_data_1, sizeof(zpal_qr_data_1));
+        flash_writeBuffer(zpal_qr_address_2, zpal_qr_data_2, sizeof(zpal_qr_data_2));
+
+        // To avoid re-initializing the QR code every time, also set the ready flag if we have a non-empty QR code
+        if (zpal_qr_data_1[0] != 0xff) {
+          uint32_t qr_ready_address = 0x807e45c;
+           // Needs to be 4-byte aligned
+          uint8_t qr_ready_data[4] = {0, 0xff, 0xff, 0xff};
+          flash_writeBuffer(qr_ready_address, qr_ready_data, sizeof(qr_ready_data));
         }
 
         char str[] = "\r\nNVM erased\r\n";
