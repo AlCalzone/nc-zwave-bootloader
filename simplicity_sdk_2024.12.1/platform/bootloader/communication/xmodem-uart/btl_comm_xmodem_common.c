@@ -497,20 +497,26 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
         uint8_t btl_sign_key_data[64];
         memcpy(btl_sign_key_data, (uint8_t *)btl_sign_key_address, sizeof(btl_sign_key_data));
 
-        uint32_t zpal_prk_address = 0x0807e3c0;
-        uint8_t zpal_prk_data[32];
-        memcpy(zpal_prk_data, (uint8_t *)zpal_prk_address, sizeof(zpal_prk_data));
+        // Ideally, we'd preserve the public, private key and QR code across erases,
+        // but the end device firmware also stores them (or a hash?) in the NVM
+        // in a format I couldn't be arsed to reverse-engineer yet.
+        // Until we do that, simply don't restore this information.
+        // Otherwise, S2 inclusion simply stops working after the keys are confirmed.
 
-        uint32_t zpal_puk_address = 0x0807e3e0;
-        uint8_t zpal_puk_data[32];
-        memcpy(zpal_puk_data, (uint8_t *)zpal_puk_address, sizeof(zpal_puk_data));
+        // uint32_t zpal_prk_address = 0x0807e3c0;
+        // uint8_t zpal_prk_data[32];
+        // memcpy(zpal_prk_data, (uint8_t *)zpal_prk_address, sizeof(zpal_prk_data));
 
-        uint32_t zpal_qr_address_1 = 0x0807e400;
-        uint32_t zpal_qr_address_2 = 0x0807e460;
-        uint8_t zpal_qr_data_1[92]; // actually 90, but that's not a multiple of 4
-        uint8_t zpal_qr_data_2[16];
-        memcpy(zpal_qr_data_1, (uint8_t *)zpal_qr_address_1, sizeof(zpal_qr_data_1));
-        memcpy(zpal_qr_data_2, (uint8_t *)zpal_qr_address_2, sizeof(zpal_qr_data_2));
+        // uint32_t zpal_puk_address = 0x0807e3e0;
+        // uint8_t zpal_puk_data[32];
+        // memcpy(zpal_puk_data, (uint8_t *)zpal_puk_address, sizeof(zpal_puk_data));
+
+        // uint32_t zpal_qr_address_1 = 0x0807e400;
+        // uint32_t zpal_qr_address_2 = 0x0807e460;
+        // uint8_t zpal_qr_data_1[92]; // actually 90, but that's not a multiple of 4
+        // uint8_t zpal_qr_data_2[16];
+        // memcpy(zpal_qr_data_1, (uint8_t *)zpal_qr_address_1, sizeof(zpal_qr_data_1));
+        // memcpy(zpal_qr_data_2, (uint8_t *)zpal_qr_address_2, sizeof(zpal_qr_data_2));
 
         // Erase all pages that start inside the write range
         for (uint32_t pageAddress = nvm_address & ~(FLASH_PAGE_SIZE - 1UL);
@@ -522,18 +528,18 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
         // Write the tokens back to where they belong
         flash_writeBuffer(btl_enc_key_address, btl_enc_key_data, sizeof(btl_enc_key_data));
         flash_writeBuffer(btl_sign_key_address, btl_sign_key_data, sizeof(btl_sign_key_data));
-        flash_writeBuffer(zpal_prk_address, zpal_prk_data, sizeof(zpal_prk_data));
-        flash_writeBuffer(zpal_puk_address, zpal_puk_data, sizeof(zpal_puk_data));
-        flash_writeBuffer(zpal_qr_address_1, zpal_qr_data_1, sizeof(zpal_qr_data_1));
-        flash_writeBuffer(zpal_qr_address_2, zpal_qr_data_2, sizeof(zpal_qr_data_2));
+        // flash_writeBuffer(zpal_prk_address, zpal_prk_data, sizeof(zpal_prk_data));
+        // flash_writeBuffer(zpal_puk_address, zpal_puk_data, sizeof(zpal_puk_data));
+        // flash_writeBuffer(zpal_qr_address_1, zpal_qr_data_1, sizeof(zpal_qr_data_1));
+        // flash_writeBuffer(zpal_qr_address_2, zpal_qr_data_2, sizeof(zpal_qr_data_2));
 
-        // To avoid re-initializing the QR code every time, also set the ready flag if we have a non-empty QR code
-        if (zpal_qr_data_1[0] != 0xff) {
-          uint32_t qr_ready_address = 0x807e45c;
-           // Needs to be 4-byte aligned
-          uint8_t qr_ready_data[4] = {0, 0xff, 0xff, 0xff};
-          flash_writeBuffer(qr_ready_address, qr_ready_data, sizeof(qr_ready_data));
-        }
+        // // To avoid re-initializing the QR code every time, also set the ready flag if we have a non-empty QR code
+        // if (zpal_qr_data_1[0] != 0xff) {
+        //   uint32_t qr_ready_address = 0x807e45c;
+        //    // Needs to be 4-byte aligned
+        //   uint8_t qr_ready_data[4] = {0, 0xff, 0xff, 0xff};
+        //   flash_writeBuffer(qr_ready_address, qr_ready_data, sizeof(qr_ready_data));
+        // }
 
         char str[] = "\r\nNVM erased\r\n";
         uart_sendBuffer((uint8_t *)str, sizeof(str), true);
