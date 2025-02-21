@@ -4,6 +4,9 @@
     <property object="DefaultMode" propertyId="mode.diagramLocation" value="100, 100"/>
     <property object="GPIO" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_DEBUG%T%btl_debug_cfg.h"/>
     <property object="GPIO" propertyId="ABPeripheral.included" value="true"/>
+    <property object="PA05" propertyId="ABModule.selectedRequirement" value="gpio%T%SL_BTL_BUTTON%T%btl_gpio_activation_cfg.h"/>
+    <property object="PA05" propertyId="pin.name" value="BTL_RESET"/>
+    <property object="PA05" propertyId="pin.reserve" value="Reserved"/>
     <property object="PA07" propertyId="pin.name" value=""/>
     <property object="PA08" propertyId="pin.name" value=""/>
     <property object="PORTIO" propertyId="portio.usart0.enable.rx" value="Enabled"/>
