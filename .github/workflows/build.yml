@@ -63,7 +63,14 @@ jobs:
           SLC: /opt/slc_cli/slc
           COMMANDER: /opt/commander/commander
 
-      - name: Debug
-        run: |
-          ls -la build/release
-          ls -la .
+      - name: Upload GBL
+        uses: actions/upload-artifact@v4
+        with:
+          name: zwa2_bootloader.gbl
+          path: artifact/zwa2_bootloader.gbl
+
+      - name: Upload HEX
+        uses: actions/upload-artifact@v4
+        with:
+          name: zwa2_bootloader.hex
+          path: build/release/nc_controller_bootloader_otw.hex
