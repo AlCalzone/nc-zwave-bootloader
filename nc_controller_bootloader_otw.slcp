@@ -32,6 +32,8 @@ component:
 - {id: bootloader_xmodem_parser}
 requires:
 - {name: bootloader_compression_lzma}
+source:
+- {path: config/pin_config.h}
 configuration:
 - {name: SL_VCOM_ENABLE, value: '1'}
 - {name: BOOTLOADER_ENFORCE_SIGNED_UPGRADE, value: '1'}
