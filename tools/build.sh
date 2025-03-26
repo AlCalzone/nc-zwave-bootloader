@@ -28,11 +28,18 @@ rm -f *.mak
 
 $SLC signature trust --sdk $SDK
 
+# Find the toolchain(s)
+toolchain_args=""
+for toolchain_dir in /opt/*arm-none-eabi*; do
+	toolchain_args="$toolchain_args --toolchain $toolchain_dir"
+done
+
 $SLC generate \
 	--project-file $PROJ_NAME.slcp \
 	--export-destination build/ \
 	--sdk "$SDK" \
 	--copy-sources \
+	$toolchain_args \
 	--output-type makefile
 
 cp build/*.Makefile ./
