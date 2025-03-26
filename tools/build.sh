@@ -28,21 +28,19 @@ rm -f *.mak
 
 $SLC signature trust --sdk $SDK
 
-# Find the toolchain(s)
-toolchain_args=""
-for toolchain_dir in /opt/*arm-none-eabi*; do
-	toolchain_args="$toolchain_args --toolchain $toolchain_dir"
-done
+# Find the toolchain
+TOOLCHAIN=$(find /opt -type d -name "*arm-none-eabi*" | head -n 1)
+echo "Found toolchain: $TOOLCHAIN"
 
 $SLC generate \
 	--project-file $PROJ_NAME.slcp \
 	--export-destination build/ \
 	--sdk "$SDK" \
 	--copy-sources \
-	$toolchain_args \
+	--toolchain toolchain_gcc \
 	--output-type makefile
 
 cp build/*.Makefile ./
 cp build/*.mak ./
 
-make release -B -f $PROJ_NAME.Makefile POST_BUILD_EXE=$POST_BUILD_EXE
+make release -B -f $PROJ_NAME.Makefile POST_BUILD_EXE=$POST_BUILD_EXE ARM_GCC_DIR=$TOOLCHAIN
