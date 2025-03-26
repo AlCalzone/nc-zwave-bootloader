@@ -7,6 +7,6 @@ OUTFILE=artifact/zwa2_bootloader.gbl
 SIGN_KEY=keys/vendor_sign.key
 ENC_KEY=keys/vendor_encrypt.key
 
-mkdir -p $(dirname $OUTFILE)
+mkdir -p artifact
 
 $COMMANDER gbl create $OUTFILE --bootloader $BUILD_OUTPUT --sign $SIGN_KEY --encrypt $ENC_KEY --compress lzma
