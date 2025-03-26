@@ -26,6 +26,8 @@ rm -rf build/
 rm -f *.Makefile
 rm -f *.mak
 
+$SLC signature trust --sdk $SDK
+
 $SLC generate \
 	--project-file $PROJ_NAME.slcp \
 	--export-destination build/ \
