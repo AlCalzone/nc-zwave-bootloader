@@ -15,7 +15,7 @@ filter:
   value: [Z-Wave]
 package: Z-Wave
 quality: production
-sdk: {id: simplicity_sdk, version: 2024.12.1}
+sdk: {id: simplicity_sdk, version: 2024.12.2}
 toolchain_settings: []
 component:
 - {id: EFR32ZG23A020F512GM40}
