@@ -24,6 +24,8 @@
 #include "driver/btl_serial_driver.h"
 #include "driver/btl_driver_delay.h"
 
+#include "core/flash/btl_internal_flash.h"
+
 #if defined(BOOTLOADER_NONSECURE)
 // NS headers
   #include "core/btl_reset_ns.h"
@@ -118,7 +120,7 @@ static int32_t receivePacket(XmodemPacket_t *packet)
   return ret;
 }
 
-static XmodemState_t getAction(void)
+static XmodemState_t getAction(bool confirm_erase)
 {
   uint8_t c;
   XmodemState_t state;
@@ -138,6 +140,17 @@ static XmodemState_t getAction(void)
     case '3':
       state = MENU;
       break;
+    case '4': {
+      char str[] = "\r\nAre you sure? (y/n) > ";
+      uart_sendBuffer((uint8_t *)str, sizeof(str), true);
+      return CONFIRM_ERASE_NVM;
+      break;
+    }
+    case 'y':
+      if (confirm_erase) {
+        return ERASE_NVM;
+      }
+      // Fall through
     default:
       state = MENU;
       break;
@@ -165,6 +178,7 @@ int32_t bootloader_xmodem_communication_start(void)
                "1. upload gbl\r\n"
                "2. run\r\n"
                "3. ebl info\r\n"
+               "4. erase nvm\r\n"
                "BL > ";
 
   uint32_t version = bootload_getBootloaderVersion();
@@ -186,6 +200,7 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
   XmodemState_t state = IDLE;
   XmodemReceiveBuffer_t buf;
   uint8_t response = 0;
+  bool confirm_erase = false;
   int packetTimeout = 60;
 #if BTL_XMODEM_IDLE_TIMEOUT > 0
   int idleTimeout = BTL_XMODEM_IDLE_TIMEOUT;
@@ -209,7 +224,7 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
 
       case IDLE:
         // Get user input
-        state = getAction();
+        state = getAction(confirm_erase);
 
 #if BTL_XMODEM_IDLE_TIMEOUT > 0
         if (state == IDLE) {
@@ -446,6 +461,91 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
           // No upgrade image given, or upgrade failed
           reset_resetWithReason(BOOTLOADER_RESET_REASON_BADIMAGE);
         }
+        break;
+      
+      case CONFIRM_ERASE_NVM:
+        confirm_erase = true;
+        state = IDLE;
+        break;
+
+      case ERASE_NVM:
+        // Erase NVM
+        // The address and size can be determined from the .map files after firmware compilation.
+        // Right now, those are either:
+        // - Controller 0x08074000, size 0xa000
+        // - End device 0x08076000, size 0x8000
+        // ...which both end at address 0x0807dfff
+        uint32_t nvm_address = 0x08074000;
+        uint32_t nvm_size = 0x0000a000;
+        uint32_t zpal_page_size = 0x00002000;
+
+        // In the page at address 0x0807e000, ZPAL stores tokens like the encryption key,
+        // but also the QR code, DSK, etc. The controller firmware does not generate the DSK,
+        // and the end device firmware only does it when the byte at address 0x807e45c is 0xff.
+
+        // For some reason, we can only erase that page, but not unlock it for resetting that byte.
+        // Hence we read the tokens first, erase NVM and the ZPAL page, then restore the tokens
+
+        // It would be much easier to just have the controller firmware also generate a DSK,
+        // but Silabs hides this functionality in the end device binaries...
+
+        uint32_t btl_enc_key_address = 0x0807e284; // Actually at 0x0807e286, but that's not 4-byte aligned
+        uint8_t btl_enc_key_data[20]; // Actually 16 bytes, but we need to read 20 bytes to keep the alignment
+        memcpy(btl_enc_key_data, (uint8_t *)btl_enc_key_address, sizeof(btl_enc_key_data));
+
+        uint32_t btl_sign_key_address = 0x0807e34c;
+        uint8_t btl_sign_key_data[64];
+        memcpy(btl_sign_key_data, (uint8_t *)btl_sign_key_address, sizeof(btl_sign_key_data));
+
+        // Ideally, we'd preserve the public, private key and QR code across erases,
+        // but the end device firmware also stores them (or a hash?) in the NVM
+        // in a format I couldn't be arsed to reverse-engineer yet.
+        // Until we do that, simply don't restore this information.
+        // Otherwise, S2 inclusion simply stops working after the keys are confirmed.
+
+        // uint32_t zpal_prk_address = 0x0807e3c0;
+        // uint8_t zpal_prk_data[32];
+        // memcpy(zpal_prk_data, (uint8_t *)zpal_prk_address, sizeof(zpal_prk_data));
+
+        // uint32_t zpal_puk_address = 0x0807e3e0;
+        // uint8_t zpal_puk_data[32];
+        // memcpy(zpal_puk_data, (uint8_t *)zpal_puk_address, sizeof(zpal_puk_data));
+
+        // uint32_t zpal_qr_address_1 = 0x0807e400;
+        // uint32_t zpal_qr_address_2 = 0x0807e460;
+        // uint8_t zpal_qr_data_1[92]; // actually 90, but that's not a multiple of 4
+        // uint8_t zpal_qr_data_2[16];
+        // memcpy(zpal_qr_data_1, (uint8_t *)zpal_qr_address_1, sizeof(zpal_qr_data_1));
+        // memcpy(zpal_qr_data_2, (uint8_t *)zpal_qr_address_2, sizeof(zpal_qr_data_2));
+
+        // Erase all pages that start inside the write range
+        for (uint32_t pageAddress = nvm_address & ~(FLASH_PAGE_SIZE - 1UL);
+            pageAddress < (nvm_address + nvm_size + zpal_page_size);
+            pageAddress += FLASH_PAGE_SIZE) {
+          flash_erasePage(pageAddress);
+        }
+
+        // Write the tokens back to where they belong
+        flash_writeBuffer(btl_enc_key_address, btl_enc_key_data, sizeof(btl_enc_key_data));
+        flash_writeBuffer(btl_sign_key_address, btl_sign_key_data, sizeof(btl_sign_key_data));
+        // flash_writeBuffer(zpal_prk_address, zpal_prk_data, sizeof(zpal_prk_data));
+        // flash_writeBuffer(zpal_puk_address, zpal_puk_data, sizeof(zpal_puk_data));
+        // flash_writeBuffer(zpal_qr_address_1, zpal_qr_data_1, sizeof(zpal_qr_data_1));
+        // flash_writeBuffer(zpal_qr_address_2, zpal_qr_data_2, sizeof(zpal_qr_data_2));
+
+        // // To avoid re-initializing the QR code every time, also set the ready flag if we have a non-empty QR code
+        // if (zpal_qr_data_1[0] != 0xff) {
+        //   uint32_t qr_ready_address = 0x807e45c;
+        //    // Needs to be 4-byte aligned
+        //   uint8_t qr_ready_data[4] = {0, 0xff, 0xff, 0xff};
+        //   flash_writeBuffer(qr_ready_address, qr_ready_data, sizeof(qr_ready_data));
+        // }
+
+        char str[] = "\r\nNVM erased\r\n";
+        uart_sendBuffer((uint8_t *)str, sizeof(str), true);
+
+        confirm_erase = false;
+        state = MENU;
         break;
     }
   }
