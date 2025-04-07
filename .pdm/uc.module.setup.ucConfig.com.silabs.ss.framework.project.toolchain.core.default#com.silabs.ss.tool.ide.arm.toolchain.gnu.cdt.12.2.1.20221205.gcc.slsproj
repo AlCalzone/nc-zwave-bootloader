@@ -4,6 +4,7 @@
     <file name="sl_memory_config.h" generated="true" linked="false"/>
     <file name="btl_core_cfg.h" generated="true" linked="false"/>
     <file name="btl_debug_cfg.h" generated="true" linked="false"/>
+    <file name="btl_gpio_activation_cfg.h" generated="true" linked="false"/>
     <file name="btl_xmodem_config.h" generated="true" linked="false"/>
     <file name="btl_aes_ctr_stream_block_cfg.h" generated="true" linked="false"/>
     <file name="btl_uart_driver_cfg.h" generated="true" linked="false"/>

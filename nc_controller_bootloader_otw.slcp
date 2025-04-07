@@ -24,6 +24,7 @@ component:
 - {id: bootloader_crc}
 - {id: bootloader_debug}
 - {id: bootloader_delay_driver}
+- {id: bootloader_gpio_activation}
 - {id: bootloader_image_parser}
 - {id: bootloader_serial_driver}
 - {id: bootloader_token_management}

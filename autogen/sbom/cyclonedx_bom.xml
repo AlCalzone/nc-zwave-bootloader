@@ -10,7 +10,7 @@ referenced in this SBOM.)
 -->
 <bom xmlns="http://cyclonedx.org/schema/bom/1.6" version="1">
   <metadata>
-    <timestamp>2025-04-07T11:49:46.391432600Z</timestamp>
+    <timestamp>2025-04-07T11:56:27.876042900Z</timestamp>
     <authors>
       <author>
         <name>Silicon Laboratories, Inc.</name>
@@ -77,6 +77,16 @@ referenced in this SBOM.)
         </component>
         <component bom-ref="simplicity_sdk:2024.12.2:bootloader_delay_driver" type="library">
           <name>Bootloader Delay Driver</name>
+          <version>2024.12.2</version>
+	      <supplier>
+	        <name>Silicon Laboratories, Inc.</name>
+	      </supplier>
+          <licenses>
+            <expression>MSLA</expression>
+          </licenses>
+        </component>
+        <component bom-ref="simplicity_sdk:2024.12.2:bootloader_gpio_activation" type="library">
+          <name>GPIO activation</name>
           <version>2024.12.2</version>
 	      <supplier>
 	        <name>Silicon Laboratories, Inc.</name>

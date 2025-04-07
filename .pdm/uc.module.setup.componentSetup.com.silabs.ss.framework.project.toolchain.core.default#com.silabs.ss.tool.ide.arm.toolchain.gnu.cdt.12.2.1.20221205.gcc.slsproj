@@ -177,6 +177,12 @@
           <file name="btl_debug_swo.c" linked="false" uri="studio:/sdk/platform/bootloader/debug/btl_debug_swo.c"/>
           <file name="btl_debug.h" linked="false" uri="studio:/sdk/platform/bootloader/debug/btl_debug.h"/>
         </folder>
+        <folder name="gpio">
+          <folder name="gpio-activation">
+            <file name="btl_gpio_activation.c" linked="false" uri="studio:/sdk/platform/bootloader/gpio/gpio-activation/btl_gpio_activation.c"/>
+            <file name="btl_gpio_activation.h" linked="false" uri="studio:/sdk/platform/bootloader/gpio/gpio-activation/btl_gpio_activation.h"/>
+          </folder>
+        </folder>
         <folder name="communication">
           <folder name="xmodem-uart">
             <file name="btl_comm_xmodem.c" linked="false" uri="studio:/sdk/platform/bootloader/communication/xmodem-uart/btl_comm_xmodem.c"/>
@@ -593,6 +599,7 @@
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader"/>
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/parser/compression"/>
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/debug"/>
+  <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/gpio/gpio-activation"/>
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/parser"/>
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/api"/>
   <includePath uri="studio:/project/simplicity_sdk_2024.12.2/platform/bootloader/security"/>
@@ -626,6 +633,7 @@
   <macroDefinition name="SL_RAMFUNC_DISABLE" value="1"/>
   <macroDefinition name="__START" value="main"/>
   <macroDefinition name="__STARTUP_CLEAR_BSS" value="1"/>
+  <macroDefinition name="BTL_GPIO_ACTIVATION" value="1"/>
   <macroDefinition name="BTL_UART_ENABLE"/>
   <macroDefinition name="BOOTLOADER_SUPPORT_COMMUNICATION" value="1"/>
   <macroDefinition name="SL_COMPONENT_CATALOG_PRESENT"/>

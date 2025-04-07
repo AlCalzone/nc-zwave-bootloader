@@ -148,6 +148,13 @@
 #define _PIN                                     0
 #endif
 
+#ifndef BTL_RESET_PORT                          
+#define BTL_RESET_PORT                           SL_GPIO_PORT_A
+#endif
+#ifndef BTL_RESET_PIN                           
+#define BTL_RESET_PIN                            5
+#endif
+
 // [CUSTOM_PIN_NAME]$
 
 #endif // PIN_CONFIG_H
