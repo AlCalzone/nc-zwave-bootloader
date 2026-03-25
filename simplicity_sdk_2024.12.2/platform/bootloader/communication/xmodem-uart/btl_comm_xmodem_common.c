@@ -541,6 +541,15 @@ int32_t bootloader_xmodem_communication_main(ImageProperties_t *imageProps,
         //   flash_writeBuffer(qr_ready_address, qr_ready_data, sizeof(qr_ready_data));
         // }
 
+        // Clear the frequency/region manufacturer token as well
+        uint32_t mfg_freq_token_address = 0x0fe00074;
+        uint8_t mfg_freq_token_data[4]; // Actually just 1 byte, but we have to write data in multiples of 4 bytes
+        memcpy(mfg_freq_token_data, (uint8_t *)mfg_freq_token_address, sizeof(mfg_freq_token_data));
+        // Set region token back to default
+        mfg_freq_token_data[0] = 0xff;
+        flash_writeBuffer(mfg_freq_token_address, mfg_freq_token_data, sizeof(mfg_freq_token_data));
+
+
         char str[] = "\r\nNVM erased\r\n";
         uart_sendBuffer((uint8_t *)str, sizeof(str), true);
 
