@@ -1,18 +1,16 @@
 name: "Build firmware"
 
 # Run this job on all pushes to master, for pull requests
-# as well as tags with a semantic version
+# as well as published releases
 on:
   push:
     branches:
       # This avoids having duplicate builds in non-forked PRs
       - "master"
       - "sisdk-*"
-    tags:
-      # normal versions
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      # pre-releases
-      - "v[0-9]+.[0-9]+.[0-9]+-**"
+  release:
+    types:
+      - published
   pull_request: {}
 
 # Cancel previous PR/branch runs when a new commit is pushed
@@ -20,61 +18,138 @@ concurrency:
   group: "build-firmware-${{ github.ref }}"
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      SDK: /opt/simplicity_sdk
+
+    outputs:
+      package: ${{ steps.version.outputs.package }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # SLC CLI ships no JRE of its own and falls back to `java` on the PATH.
+      - name: Install JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install SLT CLI
+        run: |
+          curl -o slt.zip https://www.silabs.com/documents/public/software/slt-cli-1.1.0-linux-x64.zip
+          unzip -q slt.zip -d /usr/local/bin
+          chmod +x /usr/local/bin/slt
+
+      # SLT CLI only offers Simplicity SDK 2024.12.1 and 2025.x, so the 2024.12.2
+      # SDK this project pins still comes from the GitHub release.
       - name: Download Simplicity SDK
         run: |
           curl -o simplicity_sdk_2024.12.2.zip -L https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.12.2/simplicity-sdk.zip \
           && unzip -q -d /opt/simplicity_sdk simplicity_sdk_2024.12.2.zip \
           && rm simplicity_sdk_2024.12.2.zip
 
-      - name: Download SLC CLI
+      - name: Install tools
         run: |
-          curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
-          && unzip -q -d /opt slc_cli_linux.zip \
-          && rm slc_cli_linux.zip
+          slt --non-interactive install slc-cli
+          slt --non-interactive install commander
+          slt --non-interactive install gcc-arm-none-eabi/12.2.rel1
 
-      # Install Simplicity Commander (unfortunately no stable URL available, this
-      # is known to be working with Commander_linux_x86_64_1v15p0b1306.tar.bz).
-      - name: Download Simplicity Commander
+      - name: Set up tool paths
         run: |
-          curl -O https://www.silabs.com/documents/login/software/SimplicityCommander-Linux.zip \
-          && unzip -q SimplicityCommander-Linux.zip \
-          && tar -C /opt -xjf SimplicityCommander-Linux/Commander_linux_x86_64_*.tar.bz \
-          && rm -r SimplicityCommander-Linux \
-          && rm SimplicityCommander-Linux.zip
-
-      # GCC Embedded Toolchain 12.2.rel1 (for Gecko SDK 4.4.0+)
-      - name: Download Toolchain
-        run: |
-          curl -O https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz \
-          && tar -C /opt -xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz \
-          && rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          echo "TOOLCHAIN=$(slt where gcc-arm-none-eabi/12.2.rel1)" >> $GITHUB_ENV
+          echo "$(slt where slc-cli)" >> $GITHUB_PATH
+          echo "$(slt where commander)" >> $GITHUB_PATH
 
       - name: Build project
         run: tools/build.sh
-        env:
-          SDK: /opt/simplicity_sdk
-          SLC: /opt/slc_cli/slc
-          COMMANDER: /opt/commander/commander
-
-      - name: Upload GBL
-        uses: actions/upload-artifact@v4
-        with:
-          name: zwa2_bootloader.gbl
-          path: artifact/zwa2_bootloader.gbl
 
       - name: Copy HEX file
         run: cp build/release/nc_controller_bootloader_otw.hex artifact/zwa2_bootloader.hex
 
+      - name: Determine firmware version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "release" ]; then
+            SUFFIX="${GITHUB_REF_NAME#v}"
+          else
+            SUFFIX="$(tools/extract_version.sh)_$(git rev-parse --short HEAD)"
+          fi
+          echo "SUFFIX=${SUFFIX}" >> $GITHUB_ENV
+          echo "package=zwa2_bootloader_${SUFFIX}" >> $GITHUB_OUTPUT
+
+      - name: Compute checksums for HEX file
+        run: |
+          sha256sum artifact/zwa2_bootloader.hex | cut -d" " -f1 > artifact/zwa2_bootloader.hex.sha256
+          md5sum artifact/zwa2_bootloader.hex | cut -d" " -f1 > artifact/zwa2_bootloader.hex.md5
+
+      - name: Prepare files for upload
+        run: |
+          mkdir -p upload
+          cp artifact/zwa2_bootloader.gbl upload/zwa2_bootloader_${{ env.SUFFIX }}.gbl
+          echo "GBL=zwa2_bootloader_${{ env.SUFFIX }}.gbl" >> $GITHUB_ENV
+          cp artifact/zwa2_bootloader.hex upload/zwa2_bootloader_${{ env.SUFFIX }}.hex
+          echo "HEX=zwa2_bootloader_${{ env.SUFFIX }}.hex" >> $GITHUB_ENV
+          cp artifact/zwa2_bootloader.hex.sha256 upload/zwa2_bootloader_${{ env.SUFFIX }}.hex.sha256
+          echo "HEX_SHA256=zwa2_bootloader_${{ env.SUFFIX }}.hex.sha256" >> $GITHUB_ENV
+          cp artifact/zwa2_bootloader.hex.md5 upload/zwa2_bootloader_${{ env.SUFFIX }}.hex.md5
+          echo "HEX_MD5=zwa2_bootloader_${{ env.SUFFIX }}.hex.md5" >> $GITHUB_ENV
+
+      - name: Upload GBL
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GBL }}
+          path: upload/${{ env.GBL }}
+
       - name: Upload HEX
         uses: actions/upload-artifact@v4
         with:
-          name: zwa2_bootloader.hex
-          path: artifact/zwa2_bootloader.hex
+          name: ${{ env.HEX }}
+          path: upload/${{ env.HEX }}
+
+      - name: Upload HEX SHAsum
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.HEX_SHA256 }}
+          path: upload/${{ env.HEX_SHA256 }}
+
+      - name: Upload HEX MD5sum
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.HEX_MD5 }}
+          path: upload/${{ env.HEX_MD5 }}
+
+      - name: Upload firmware package
+        uses: actions/upload-artifact@v4
+        with:
+          name: zwa2_bootloader_${{ env.SUFFIX }}
+          path: upload/*.*
+
+  # Separate job so the build job, which runs code from pull requests, keeps a
+  # read-only token.
+  release:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download firmware package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.package }}
+          path: upload
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          files: upload/*.*
