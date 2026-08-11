@@ -38,6 +38,13 @@ jobs:
           && unzip -q -d /opt/simplicity_sdk simplicity_sdk_2024.12.2.zip \
           && rm simplicity_sdk_2024.12.2.zip
 
+      # SLC CLI is an Eclipse application and ships no JRE of its own.
+      - name: Install JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
       - name: Download SLC CLI
         run: |
           curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
