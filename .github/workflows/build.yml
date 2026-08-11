@@ -64,14 +64,12 @@ jobs:
 
       - name: Set up tool paths
         run: |
-          echo "SLC=$(slt where slc-cli)/slc" >> $GITHUB_ENV
           echo "TOOLCHAIN=$(slt where gcc-arm-none-eabi/12.2.rel1)" >> $GITHUB_ENV
+          echo "$(slt where slc-cli)" >> $GITHUB_PATH
           echo "$(slt where commander)" >> $GITHUB_PATH
 
       - name: Build project
         run: tools/build.sh
-        env:
-          COMMANDER: commander
 
       - name: Copy HEX file
         run: cp build/release/nc_controller_bootloader_otw.hex artifact/zwa2_bootloader.hex
