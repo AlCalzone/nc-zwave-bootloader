@@ -32,48 +32,44 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Download Simplicity SDK
-        run: |
-          curl -o simplicity_sdk_2024.12.2.zip -L https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.12.2/simplicity-sdk.zip \
-          && unzip -q -d /opt/simplicity_sdk simplicity_sdk_2024.12.2.zip \
-          && rm simplicity_sdk_2024.12.2.zip
-
-      # SLC CLI is an Eclipse application and ships no JRE of its own.
+      # SLC CLI ships no JRE of its own and falls back to `java` on the PATH.
       - name: Install JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
-      - name: Download SLC CLI
+      - name: Install SLT CLI
         run: |
-          curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
-          && unzip -q -d /opt slc_cli_linux.zip \
-          && rm slc_cli_linux.zip
+          curl -o slt.zip https://www.silabs.com/documents/public/software/slt-cli-1.1.0-linux-x64.zip
+          unzip -q slt.zip -d /usr/local/bin
+          chmod +x /usr/local/bin/slt
 
-      # Install Simplicity Commander (unfortunately no stable URL available, this
-      # is known to be working with Commander_linux_x86_64_1v15p0b1306.tar.bz).
-      - name: Download Simplicity Commander
+      # SLT CLI only offers Simplicity SDK 2024.12.1 and 2025.x, so the 2024.12.2
+      # SDK this project pins still comes from the GitHub release.
+      - name: Download Simplicity SDK
         run: |
-          curl -O https://www.silabs.com/documents/login/software/SimplicityCommander-Linux.zip \
-          && unzip -q SimplicityCommander-Linux.zip \
-          && tar -C /opt -xjf SimplicityCommander-Linux/Commander_linux_x86_64_*.tar.bz \
-          && rm -r SimplicityCommander-Linux \
-          && rm SimplicityCommander-Linux.zip
+          curl -o simplicity_sdk_2024.12.2.zip -L https://github.com/SiliconLabs/simplicity_sdk/releases/download/v2024.12.2/simplicity-sdk.zip \
+          && unzip -q -d /opt/simplicity_sdk simplicity_sdk_2024.12.2.zip \
+          && rm simplicity_sdk_2024.12.2.zip
 
-      # GCC Embedded Toolchain 12.2.rel1 (for Gecko SDK 4.4.0+)
-      - name: Download Toolchain
+      - name: Install tools
         run: |
-          curl -O https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz \
-          && tar -C /opt -xf arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz \
-          && rm arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz
+          slt --non-interactive install slc-cli
+          slt --non-interactive install commander
+          slt --non-interactive install gcc-arm-none-eabi/12.2.rel1
+
+      - name: Set up tool paths
+        run: |
+          echo "SLC=$(slt where slc-cli)/slc" >> $GITHUB_ENV
+          echo "TOOLCHAIN=$(slt where gcc-arm-none-eabi/12.2.rel1)" >> $GITHUB_ENV
+          echo "$(slt where commander)" >> $GITHUB_PATH
 
       - name: Build project
         run: tools/build.sh
         env:
           SDK: /opt/simplicity_sdk
-          SLC: /opt/slc_cli/slc
-          COMMANDER: /opt/commander/commander
+          COMMANDER: commander
 
       - name: Copy HEX file
         run: cp build/release/nc_controller_bootloader_otw.hex artifact/zwa2_bootloader.hex

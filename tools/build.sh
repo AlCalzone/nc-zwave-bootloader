@@ -28,9 +28,11 @@ rm -f *.mak
 
 $SLC signature trust --sdk $SDK
 
-# Find the toolchain
-TOOLCHAIN=$(find /opt -type d -name "*arm-none-eabi*" | head -n 1)
-echo "Found toolchain: $TOOLCHAIN"
+# Find the toolchain unless one was provided
+if [ -z "${TOOLCHAIN}" ]; then
+	TOOLCHAIN=$(find /opt -type d -name "*arm-none-eabi*" | head -n 1)
+fi
+echo "Using toolchain: $TOOLCHAIN"
 
 $SLC generate \
 	--project-file $PROJ_NAME.slcp \
