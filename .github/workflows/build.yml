@@ -25,6 +25,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SDK: /opt/simplicity_sdk
+
     outputs:
       package: ${{ steps.version.outputs.package }}
 
@@ -68,7 +71,6 @@ jobs:
       - name: Build project
         run: tools/build.sh
         env:
-          SDK: /opt/simplicity_sdk
           COMMANDER: commander
 
       - name: Copy HEX file
@@ -80,8 +82,7 @@ jobs:
           if [ "${{ github.event_name }}" == "release" ]; then
             SUFFIX="${GITHUB_REF_NAME#v}"
           else
-            VERSION=$(grep -oP 'BOOTLOADER_VERSION_MAIN_CUSTOMER\s+\K[0-9]+' config/btl_core_cfg.h)
-            SUFFIX="${VERSION}_$(git rev-parse --short HEAD)"
+            SUFFIX="$(tools/extract_version.sh)_$(git rev-parse --short HEAD)"
           fi
           echo "SUFFIX=${SUFFIX}" >> $GITHUB_ENV
           echo "package=zwa2_bootloader_${SUFFIX}" >> $GITHUB_OUTPUT
