@@ -33,11 +33,11 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # SLC CLI ships no JRE of its own and falls back to `java` on the PATH.
       - name: Install JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
@@ -103,31 +103,31 @@ jobs:
           echo "HEX_MD5=zwa2_bootloader_${{ env.SUFFIX }}.hex.md5" >> $GITHUB_ENV
 
       - name: Upload GBL
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.GBL }}
           path: upload/${{ env.GBL }}
 
       - name: Upload HEX
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.HEX }}
           path: upload/${{ env.HEX }}
 
       - name: Upload HEX SHAsum
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.HEX_SHA256 }}
           path: upload/${{ env.HEX_SHA256 }}
 
       - name: Upload HEX MD5sum
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.HEX_MD5 }}
           path: upload/${{ env.HEX_MD5 }}
 
       - name: Upload firmware package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: zwa2_bootloader_${{ env.SUFFIX }}
           path: upload/*.*
@@ -144,12 +144,12 @@ jobs:
 
     steps:
       - name: Download firmware package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ needs.build.outputs.package }}
           path: upload
 
       - name: Upload to release
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           files: upload/*.*
